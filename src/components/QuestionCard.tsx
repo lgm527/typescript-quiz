@@ -1,8 +1,10 @@
+import { AnswerObject } from '../App';
+
 export interface QuestionCardProps {
     question: string;
     answers: string[];
-    callback: any;
-    userAnswer: any;
+    callback: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    userAnswer: AnswerObject | undefined;
     questionNr: number;
     totalQuestions: number; 
 }
@@ -13,10 +15,10 @@ const QuestionCard: React.FunctionComponent<QuestionCardProps> = ({question, ans
         <p className="number">Question: {questionNr} / {totalQuestions}</p>
         <p dangerouslySetInnerHTML={{__html: question}}></p>
         <div>
-            {answers.map((a) => (
-                <div>
-                    <button disabled={userAnswer} onClick={callback}>
-                        <span dangerouslySetInnerHTML={{__html: a}}></span>
+            {answers.map((answer) => (
+                <div key={answer}>
+                    <button disabled={!!userAnswer} onClick={callback} value={answer}>
+                        <span dangerouslySetInnerHTML={{__html: answer}}></span>
                     </button>
                 </div>
             ))}
